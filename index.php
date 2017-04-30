@@ -37,7 +37,7 @@ foreach(glob(PROJECT_PATH."config/*.php") as $confFile){
 }
 
 //Connexion to the database
-$db = new DBLibrary();
+$db = new DBLibrary(($dw->config->get("site_mode") == "debug"));
 $dw->register("db", $db);
 $db->openSQLite(PROJECT_PATH."data/".$dw->config->get("database_filename"));
 define("DB_PREFIX", $dw->config->get("database_prefix"));
@@ -49,6 +49,10 @@ $dw->register("auth", $auth);
 //Register list class
 $lists = new lists();
 $dw->register("lists", $lists);
+
+//Register sites class
+$sites = new sites();
+$dw->register("sites", $sites);
 
 //Include RestControllers
 foreach(glob(PROJECT_PATH."RestControllers/*.php") as $restControllerFile){

@@ -8,6 +8,15 @@
 class lists{
 
     /**
+     * Get current list
+     *
+     * @return Mixed False for a failure, an array in case of success
+     */
+    public function getCurrent(){
+        return array();
+    }
+
+    /**
      * Update lists
      *
      * @return Boolean True for a success
@@ -20,12 +29,36 @@ class lists{
             return false;
         
         //Try to decode the list
-        $arrayList = $this->decodeList($listContent);
-        if($arrayList === false)
+        $newList = $this->decodeList($listContent);
+        if($newList === false)
             return false;
         
-        print_r($arrayList);
+        //Get current list
+        $currentList = $this->getCurrent();
 
+        //Compare each site
+        foreach($currentList as $urlname=>$site){
+
+            //Compare the two site, if different, update the database
+
+            //Remove the site from the new listlist
+            unset($newList[$urlname]);
+            unset($currentList[$urlname]);
+        }
+
+        //All remaining sites from newlist are new sites, they have to be inserted
+        foreach($newList as $urlname=>$siteInfos){
+            //Try to insert a new site
+            if(!$this->parent->sites->insert($siteInfos))
+                return false;
+        }
+
+        //All remaining sites from current list are deleted sites, they have to be set as "not current"
+        foreach($currentList as $urnlname=>$siteInfos){
+            //Mark site as disabled
+        }
+
+        //This is a success
         return true;
     }
 
