@@ -35,3 +35,28 @@ $dw->register("config", $config);
 foreach(glob(PROJECT_PATH."config/*.php") as $confFile){
     require $confFile;
 }
+
+//Include RestControllers
+foreach(glob(PROJECT_PATH."RestControllers/*.php") as $restControllerFile){
+    require_once $restControllerFile;
+}
+
+//Include RestServer library
+require PROJECT_PATH."3rdparty/RestServer/RestServer.php";
+
+/**
+ * Handle Rest requests
+ */
+$server = new \Jacwright\RestServer\RestServer($dw->config->get("site_mode"));
+
+//Include controllers
+foreach(get_included_files() as $filePath){
+    if(preg_match("<RestControllers>", $filePath)){
+        $className = strstr($filePath, "RestControllers/");
+        $className = str_replace(array("RestControllers/", ".php"), "", $className);
+        $server->addClass($className);
+    }
+}
+
+//Hanlde
+$server->handle();
