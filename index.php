@@ -40,10 +40,15 @@ foreach(glob(PROJECT_PATH."config/*.php") as $confFile){
 $db = new DBLibrary();
 $dw->register("db", $db);
 $db->openSQLite(PROJECT_PATH."data/".$dw->config->get("database_filename"));
+define("DB_PREFIX", $dw->config->get("database_prefix"));
 
 //Register auth class
 $auth = new Auth();
 $dw->register("auth", $auth);
+
+//Register list class
+$lists = new lists();
+$dw->register("lists", $lists);
 
 //Include RestControllers
 foreach(glob(PROJECT_PATH."RestControllers/*.php") as $restControllerFile){

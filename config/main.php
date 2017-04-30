@@ -16,10 +16,10 @@ $config->set("site_mode", "debug");
  * DEBUG : http://devweb.local/decodexList/decodexReader/assets/moduleDecodex/decodexUpdates.json
  * RELEASE (online) : http://www.lemonde.fr/webservice/decodex/updates
  */
-$config->set("DecodexURL", "http://devweb.local/decodexList/decodexReader/assets/moduleDecodex/decodexUpdates.json");
+$config->set("decodexListURL", "http://devweb.local/decodexList/decodexReader/assets/moduleDecodex/decodexUpdates.json");
 
 /**
- * Tokens for a privilegied access
+ * Tokens for a privilegied access (Rest access)
  */
 $config->set("priviliegedTokens", array(
     "token1"=>"xa23kRhv15TLM8l85VQeMRCqqNfdRqwW8sTzxOtv9uBag0LAUst1QU7FdZezF6",
@@ -31,3 +31,8 @@ $config->set("priviliegedTokens", array(
  * Database filename (inside of data directory)
  */
 $config->set("database_filename", "database.sqlite");
+
+/**
+ * Database prefix
+ */
+$config->set("database_prefix", "dw_");
