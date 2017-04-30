@@ -21,8 +21,13 @@ $config->set("DecodexURL", "http://devweb.local/decodexList/decodexReader/assets
 /**
  * Tokens for a privilegied access
  */
-$config->set("PriviliegedTokens", array(
-    "token1"=>"xa23kRhv15TLM8l85VQeMRCqqNfdRqwW+sTzxOtv+uBag0LAU+st1QU7FdZezF6",
-    "token2"=>"MbTXCsrdTUkVVbHQfFfqex2m86lcnVWEUABvEfXFFqDQImjz+OJDOcJQRMWwuJA",
-    "token3"=>"TRLBgTQd+mTrxo3UYp4dkdW5R9MQqjG0JdlMkwrf+7SXW5Cxe4mNvfXNrMi2g1m",
+$config->set("priviliegedTokens", array(
+    "token1"=>"xa23kRhv15TLM8l85VQeMRCqqNfdRqwW8sTzxOtv9uBag0LAUst1QU7FdZezF6",
+    "token2"=>"MbTXCsrdTUkVVbHQfFfqex2m86lcnVWEUABvEfXFFqDQImjzOJDOcJQRMWwuJA",
+    "token3"=>"TRLBgTQd4mTrxo3UYp4dkdW5R9MQqjG0JdlMkwrf7SXW5Cxe4mNvfXNrMi2g1m",
 ));
+
+/**
+ * Database filename (inside of data directory)
+ */
+$config->set("database_filename", "database.sqlite");

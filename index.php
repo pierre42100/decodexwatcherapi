@@ -25,7 +25,7 @@ foreach(glob(PROJECT_PATH."functions/*.php") as $funcFile){
 }
 
 //Create root object
-$dw = new decodexWatcher();
+$dw = new DW();
 
 //Create configuration element
 $config = new config();
@@ -35,6 +35,15 @@ $dw->register("config", $config);
 foreach(glob(PROJECT_PATH."config/*.php") as $confFile){
     require $confFile;
 }
+
+//Connexion to the database
+$db = new DBLibrary();
+$dw->register("db", $db);
+$db->openSQLite(PROJECT_PATH."data/".$dw->config->get("database_filename"));
+
+//Register auth class
+$auth = new Auth();
+$dw->register("auth", $auth);
 
 //Include RestControllers
 foreach(glob(PROJECT_PATH."RestControllers/*.php") as $restControllerFile){

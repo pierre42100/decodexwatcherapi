@@ -5,7 +5,7 @@
  * @author Pierre HUBERT
  */
 
-class decodexWatcher{
+class DW{
 
     /**
      * @var decodexWatcher $instance Instance object copy
@@ -42,9 +42,9 @@ class decodexWatcher{
     /**
      * Returns current active  object instance
      *
-     * @return decodexWatcher An instance pointing on current object
+     * @return DW An instance pointing on current object
      */
-    public static function &getInstance() : decodexWatcher{
+    public static function &get() : DW {
         return self::$instance;
     }
 }
