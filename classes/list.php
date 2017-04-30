@@ -29,7 +29,7 @@ class lists{
     }
 
     /**
-     * Update lists
+     * Update the list
      *
      * @return Boolean True for a success
      */
@@ -74,13 +74,14 @@ class lists{
         foreach($newList as $urlname=>$siteInfos){
             //Try to insert a new site
             if(!$this->parent->sites->insert($siteInfos))
-                return false;
+                return false; //Couldn't insert a new site
         }
 
         //All remaining sites from current list are deleted sites, they have to be set as "not current"
         foreach($currentList as $urlname=>$siteInfos){
-            //Mark site as disabled
-            echo "DELETE ENTRY ".$urlname."\n";
+            //Mark site as deleted
+            if(!$this->parent->sites->delete($siteInfos["ID_sitesName"]))
+                return false; //Couldn't delete site
         }
 
         //This is a success

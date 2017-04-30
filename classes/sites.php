@@ -114,15 +114,12 @@ class sites {
     }
     
     /**
-     * Update the informations about a site
+     * Mark all entries about a siteID as "old"
      *
-     * @param Integer $siteID The ID of the site
-     * @param Array $siteInfos The informations about the website
+     * @param Integer $siteID The ID of the site to update
      * @return Boolean True for a success
      */
-    public function update($siteID, $siteInfos){
-        
-        //First, mark all previous entry as "old"
+    private function markSiteEntriesAllOld($siteID){
         //Perform a request on the database
         $tableName = DB_PREFIX."sitesInformations";
         $conditions = "ID_sitesName = ?";
@@ -137,9 +134,53 @@ class sites {
         if(!$this->parent->db->updateDB($tableName, $conditions, $modifs, $whereValues))
             return false; //Couldn't update database
         
+        //Else it is a success
+        return true;
+    }
+
+    /**
+     * Update the informations about a site
+     *
+     * @param Integer $siteID The ID of the site
+     * @param Array $siteInfos The informations about the website
+     * @return Boolean True for a success
+     */
+    public function update($siteID, $siteInfos){
+        
+        //First, mark all previous entry as "old"
+        if(!$this->markSiteEntriesAllOld($siteID))
+            return false;
+        
         //Insert the new line
         $siteInfos["ID"] = $siteID;
         if(!$this->insertSiteInformations($siteInfos))
+            return false; //Something went wrong
+
+        //Everything went good
+        return true;
+    }
+
+    /**
+     * Delete a site
+     *
+     * @param Integer $siteID The ID of the website to delete
+     * @return Boolean True for a success
+     */
+    public function delete($siteID){
+        //Mark all site entries as old
+        if(!$this->markSiteEntriesAllOld($siteID))
+            return false;
+        
+        //Insert an "old" line that indicate the website was remoed
+        $siteInfos = array(
+            "ID" => $siteID,
+            "urls" => "[]",
+            "comment" => "The website was removed from the list.",
+            "trustLevel" => 4,
+        );
+
+        //Insert an information line on the database
+        if(!$this->insertSiteInformations($siteInfos, false))
             return false; //Something went wrong
 
         //Everything went good

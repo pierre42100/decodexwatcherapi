@@ -14,6 +14,7 @@ $config->set("site_mode", "debug");
  * The URL where Decodex list can be retrieved
  *
  * DEBUG : http://devweb.local/decodexList/decodexReader/assets/moduleDecodex/11fev2017/decodexUpdates.json
+ * DEBUG : http://devweb.local/decodexList/decodexReader/assets/moduleDecodex/30apr2017/decodexUpdates.json
  * RELEASE (online) : http://www.lemonde.fr/webservice/decodex/updates
  */
 $config->set("decodexListURL", "http://devweb.local/decodexList/decodexReader/assets/moduleDecodex/30apr2017/decodexUpdates.json");
