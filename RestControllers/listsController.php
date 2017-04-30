@@ -8,10 +8,19 @@
 class listsController {
 
 	/**
-	 * Get the current list (complete)
+	 * Get the complete list
 	 *
-	 * @url GET /list/get
+	 * @url GET /list/get/current
 	 */
+	public function getList(){
+		
+		//Try to get the current list
+		if(!$list = DW::get()->lists->getCurrent())
+			Rest_fatal_error(500, "Couldn't get current list !");
+
+		//Return the list
+		return $list;
+	}
 	
 
 	/**

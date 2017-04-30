@@ -13,10 +13,10 @@ $config->set("site_mode", "debug");
 /**
  * The URL where Decodex list can be retrieved
  *
- * DEBUG : http://devweb.local/decodexList/decodexReader/assets/moduleDecodex/decodexUpdates.json
+ * DEBUG : http://devweb.local/decodexList/decodexReader/assets/moduleDecodex/11fev2017/decodexUpdates.json
  * RELEASE (online) : http://www.lemonde.fr/webservice/decodex/updates
  */
-$config->set("decodexListURL", "http://devweb.local/decodexList/decodexReader/assets/moduleDecodex/decodexUpdates.json");
+$config->set("decodexListURL", "http://devweb.local/decodexList/decodexReader/assets/moduleDecodex/11fev2017/decodexUpdates.json");
 
 /**
  * Tokens for a privilegied access (Rest access)

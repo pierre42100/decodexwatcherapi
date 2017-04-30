@@ -13,7 +13,19 @@ class lists{
      * @return Mixed False for a failure, an array in case of success
      */
     public function getCurrent(){
-        return array();
+        //Perform a request on the database
+        $tableName = DB_PREFIX."sitesInformations, ".DB_PREFIX."sitesName";
+        $conditions = "WHERE ".DB_PREFIX."sitesName.ID = ".DB_PREFIX."sitesInformations.ID_sitesName AND ".DB_PREFIX."sitesInformations.latest = 1";
+
+        //Try to perform request
+        $results = $this->parent->db->select($tableName, $conditions);
+
+        if($results === false)
+            return false; //An error occured
+        
+        //Give data a structure
+        return $this->giveStructure($results);
+        
     }
 
     /**
@@ -35,7 +47,8 @@ class lists{
         
         //Get current list
         $currentList = $this->getCurrent();
-
+        print_r($currentList);
+        exit("STOP");
         //Compare each site
         foreach($currentList as $urlname=>$site){
 
@@ -102,6 +115,27 @@ class lists{
         $return = array();
         foreach($sitesInfos as $process){
             $return[$process['urlName']] = $process;
+        }
+
+        //Return result
+        return $return;
+    }
+
+    /**
+     * Give a correct structure to a list
+     *
+     * @param Array $sitesList The list of sites to structure
+     * @return Array The structured list
+     */
+    private function giveStructure($sitesList){
+        $return = array();
+
+        //Process list
+        foreach($sitesList as $process){
+            $return[$process["urlName"]] = $process;
+
+            //Decode URLs
+            $return[$process["urlName"]]["urls"] = json_decode($return[$process["urlName"]]["urls"], true);
         }
 
         //Return result
