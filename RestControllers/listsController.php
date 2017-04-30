@@ -10,13 +10,22 @@ class listsController {
 	/**
 	 * Get the complete list
 	 *
-	 * @url GET /list/get/current
+	 * @url GET /list/get
+	 * @url GET /list/get/
+	 * @url GET /list/get/$time
 	 */
-	public function getList(){
+	public function getList($time="current"){
 		
-		//Try to get the current list
-		if(!$list = DW::get()->lists->getCurrent())
-			Rest_fatal_error(500, "Couldn't get current list !");
+		//We check if we want the current list or another one
+		if($time === "current"){
+			//Try to get the current list
+			if(!$list = DW::get()->lists->getCurrent())
+				Rest_fatal_error(500, "Couldn't get current list !");
+		}
+		else {
+			//Not implemented
+			return array("error" => "Not implemented !");
+		}
 
 		//Return the list
 		return $list;
