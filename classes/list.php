@@ -47,13 +47,24 @@ class lists{
         
         //Get current list
         $currentList = $this->getCurrent();
-        print_r($currentList);
-        exit("STOP");
+        
         //Compare each site
-        foreach($currentList as $urlname=>$site){
+        foreach($currentList as $urlname=>$currentInfos){
+
+            //We check if the current element exists in the new list
+            if(!isset($newList[$urlname]))
+                continue; //Skip current check
 
             //Compare the two site, if different, update the database
-
+            if(json_encode($currentInfos["urls"]) != json_encode($newList[$urlname]["urls"]) OR
+                $currentInfos["comment"] != $newList[$urlname]["comment"] OR
+                $currentInfos["trustLevel"] != $newList[$urlname]["trustLevel"]
+            )
+            {
+                //The lists are different, update the database
+                if(!$this->parent->sites->update($currentInfos["ID_sitesName"], $newList[$urlname]))
+                    return false; //An error occured while trying to update
+            }
             //Remove the site from the new listlist
             unset($newList[$urlname]);
             unset($currentList[$urlname]);
@@ -67,8 +78,9 @@ class lists{
         }
 
         //All remaining sites from current list are deleted sites, they have to be set as "not current"
-        foreach($currentList as $urnlname=>$siteInfos){
+        foreach($currentList as $urlname=>$siteInfos){
             //Mark site as disabled
+            echo "DELETE ENTRY ".$urlname."\n";
         }
 
         //This is a success

@@ -68,15 +68,16 @@ class sites {
      * Insert a new siteInformations line
      *
      * @param Array $siteInfos Informations about the line to add
+     * @param Boolean $latest Optionnal, define if the line as to marked as the latest
      * @return Boolean True for a success
      */
-    private function insertSiteInformations($siteInfos){
+    private function insertSiteInformations($siteInfos, $latest=true){
         //Perform a request on the database
         $tableName = DB_PREFIX."sitesInformations";
         $values = array(
             "ID_sitesName" => $siteInfos["ID"],
             "insertTime" => time(),
-            "latest" => 1,
+            "latest" => ($latest ? 1 : 0),
             "urls" => json_encode($siteInfos["urls"]),
             "comment" => $siteInfos["comment"],
             "trustLevel" => $siteInfos["trustLevel"]
@@ -112,4 +113,36 @@ class sites {
         return true;
     }
     
+    /**
+     * Update the informations about a site
+     *
+     * @param Integer $siteID The ID of the site
+     * @param Array $siteInfos The informations about the website
+     * @return Boolean True for a success
+     */
+    public function update($siteID, $siteInfos){
+        
+        //First, mark all previous entry as "old"
+        //Perform a request on the database
+        $tableName = DB_PREFIX."sitesInformations";
+        $conditions = "ID_sitesName = ?";
+        $modifs = array(
+            "latest" => 0
+        );
+        $whereValues = array(
+            $siteID
+        );
+
+        //Try to perform request on the database
+        if(!$this->parent->db->updateDB($tableName, $conditions, $modifs, $whereValues))
+            return false; //Couldn't update database
+        
+        //Insert the new line
+        $siteInfos["ID"] = $siteID;
+        if(!$this->insertSiteInformations($siteInfos))
+            return false; //Something went wrong
+
+        //Everything went good
+        return true;
+    }
 }
