@@ -65,6 +65,31 @@ class sites {
     }
 
     /**
+     * Insert a new siteInformations line
+     *
+     * @param Array $siteInfos Informations about the line to add
+     * @return Boolean True for a success
+     */
+    private function insertSiteInformations($siteInfos){
+        //Perform a request on the database
+        $tableName = DB_PREFIX."sitesInformations";
+        $values = array(
+            "ID_sitesName" => $siteInfos["ID"],
+            "insertTime" => time(),
+            "latest" => 1,
+            "urls" => json_encode($siteInfos["urls"]),
+            "comment" => $siteInfos["comment"],
+            "trustLevel" => $siteInfos["trustLevel"]
+        );
+
+        //Try to insert the line
+        if(!$this->parent->db->addLine($tableName, $values))
+            return false; //Something happened
+        else
+            return true; //It is a success
+    }
+
+    /**
      * Insert a new site
      *
      * @param Array $siteInfos Informations about the new website
@@ -78,8 +103,13 @@ class sites {
                 return false; //Couldn't generate siteID
         }
 
-        return true;
+        //Insert informations about the website in the main database
+        $siteInfos["ID"] = $siteID;
+        if(!$this->insertSiteInformations($siteInfos))
+            return false; //Couldn't insert a new line in the database
 
+        //Else the site was successfully inserted
+        return true;
     }
     
 }
