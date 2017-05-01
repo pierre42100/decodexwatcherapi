@@ -58,7 +58,7 @@ class listsController {
 	 * @url GET /list/urls
 	 */
 	public function getListSites(){
-		//We try to get the list of uyrls
+		//We try to get the list of urls
 		if(!$list = DW::get()->lists->getListUrls())
 			Rest_fatal_error(500, "Couldn't get the list of urls !");
 		

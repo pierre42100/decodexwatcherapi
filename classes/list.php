@@ -40,7 +40,7 @@ class lists{
 
         //Perform a request on the database
         $tableName = DB_PREFIX."sitesInformations, ".DB_PREFIX."sitesName";
-        $conditions = "INNER JOIN (SELECT MAX(ID) AS maxID, ID_sitesName FROM dw_sitesInformations  WHERE dw_sitesInformations.insertTime <= ? GROUP BY ID_sitesName) maxID ON maxID.maxID = dw_sitesInformations.id WHERE dw_sitesInformations.ID_sitesName = dw_sitesName.ID ORDER BY dw_sitesName.ID";
+        $conditions = "INNER JOIN (SELECT MAX(ID) AS maxID, ID_sitesName FROM ".DB_PREFIX."sitesInformations  WHERE ".DB_PREFIX."sitesInformations.insertTime <= ? GROUP BY ID_sitesName) maxID ON maxID.maxID = ".DB_PREFIX."sitesInformations.id WHERE ".DB_PREFIX."sitesInformations.ID_sitesName = ".DB_PREFIX."sitesName.ID ORDER BY ".DB_PREFIX."sitesName.ID";
         $datacond = array($time);
 
         //Try to perform request
