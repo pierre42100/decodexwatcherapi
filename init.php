@@ -48,6 +48,10 @@ $dw->register("lists", $lists);
 $sites = new sites();
 $dw->register("sites", $sites);
 
+//Register changes class
+$changes = new changes();
+$dw->register("changes", $changes);
+
 //Register log class
 $log = new Log();
 $dw->register("log", $log);
