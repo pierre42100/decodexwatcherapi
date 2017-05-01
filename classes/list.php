@@ -29,6 +29,31 @@ class lists{
     }
 
     /**
+     * Get the list of a specified timestamp
+     *
+     * @param Intenger $time The time of the list
+     * @return Mixed False for a failure, an array in case of success
+     */
+    public function getOnTimestamp($time){
+        //Security
+        $time = $time*1;
+
+        //Perform a request on the database
+        $tableName = DB_PREFIX."sitesInformations, ".DB_PREFIX."sitesName";
+        $conditions = "INNER JOIN (SELECT MAX(ID) AS maxID, ID_sitesName FROM dw_sitesInformations  WHERE dw_sitesInformations.insertTime <= ? GROUP BY ID_sitesName) maxID ON maxID.maxID = dw_sitesInformations.id WHERE dw_sitesInformations.ID_sitesName = dw_sitesName.ID ORDER BY dw_sitesName.ID";
+        $datacond = array($time);
+
+        //Try to perform request
+        $results = $this->parent->db->select($tableName, $conditions, $datacond);
+
+        if($results === false)
+            return false; //An error occured
+        
+        //Give data a structure
+        return $this->giveStructure($results, true);
+    }
+
+    /**
      * Update the list
      *
      * @return Boolean True for a success
@@ -138,9 +163,10 @@ class lists{
      * Give a correct structure to a list
      *
      * @param Array $sitesList The list of sites to structure
+     * @param Boolean $deleteRemoved Optionnal, define if entries marked has deleted has to be returned or not
      * @return Array The structured list
      */
-    private function giveStructure($sitesList){
+    private function giveStructure($sitesList, $deleteRemoved=false){
         $return = array();
 
         //Process list
@@ -149,6 +175,13 @@ class lists{
 
             //Decode URLs
             $return[$process["urlName"]]["urls"] = json_decode($return[$process["urlName"]]["urls"], true);
+
+            //Check if we have to remove deleted entries
+            if($deleteRemoved){
+                if($process["comment"] == "The website was removed from the list.")
+                    //Remove entry
+                    unset($return[$process["urlName"]]);
+            }
         }
 
         //Return result

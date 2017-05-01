@@ -23,8 +23,9 @@ class listsController {
 				Rest_fatal_error(500, "Couldn't get current list !");
 		}
 		else {
-			//Not implemented
-			return array("error" => "Not implemented !");
+			//Get the list of the specified timestamp
+			if(!$list = DW::get()->lists->getOnTimestamp($time*1))
+				Rest_fatal_error(500, "Couldn't get the list on specified timestamp !");
 		}
 
 		//Return the list
