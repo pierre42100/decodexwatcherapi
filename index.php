@@ -21,6 +21,9 @@ foreach(glob(PROJECT_PATH."RestControllers/*.php") as $restControllerFile){
 //Include RestServer library
 require PROJECT_PATH."3rdparty/RestServer/RestServer.php";
 
+//Allow remote requests
+header("Access-Control-Allow-Origin: *");
+
 /**
  * Handle Rest requests
  */
