@@ -50,5 +50,19 @@ class listsController {
 		
 		//Else it is a success
 		return array("success" => "This list was successfully updated !");
-	} 
+	}
+
+	/**
+	 * Get the list of available websites
+	 *
+	 * @url GET /list/urls
+	 */
+	public function getListSites(){
+		//We try to get the list of uyrls
+		if(!$list = DW::get()->lists->getListUrls())
+			Rest_fatal_error(500, "Couldn't get the list of urls !");
+		
+		//Return the list
+		return $list;
+	}
 }

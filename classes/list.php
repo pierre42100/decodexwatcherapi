@@ -188,4 +188,25 @@ class lists{
         return $return;
     }
 
+    /**
+     * Get the list of urls
+     *
+     * @return Mixed False for a failure / An array in case of success
+     */
+    public function getListUrls(){
+        //Get the current list
+        $currentList = $this->getCurrent();
+
+        //Process the list
+        $return = array();
+        foreach($currentList as $process){
+            //Process each URL
+            foreach($process["urls"] as $url){
+                $return[$url] = $process;
+            }
+        }
+
+        //Return result
+        return $return;
+    }
 }
