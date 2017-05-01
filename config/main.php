@@ -37,3 +37,14 @@ $config->set("database_filename", "database.sqlite");
  * Database prefix
  */
 $config->set("database_prefix", "dw_");
+
+/**
+ * Log folder name
+ * The log folder must be present in the appliccation data folder (security reason)
+ */
+$config->set("logFolder", "logs/");
+
+/**
+ * Defines the number of weeks logs may be kept
+ */
+$config->set("keepLogs", 5); //5 weeks
